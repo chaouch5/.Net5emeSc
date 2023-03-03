@@ -11,7 +11,7 @@ namespace AM.ApplicationCore.Interfaces
     {
         public List<DateTime> GetFlightDates(String destination);
         public IEnumerable<DateTime> GettFlightDates(String destination);
-        // public void GetFlights(String filterType,String filterValue)
+        //public void GetFlights(String filterType,String filterValue)
         public IList<DateTime> GetFlightDates2(string destination);
         public int ProgrammedFlightNumber(DateTime startDate);
         public double DurationAverage(string destination);
@@ -19,5 +19,6 @@ namespace AM.ApplicationCore.Interfaces
         public IList<Traveller> SeniorTravellers(Flight flight);
 
         public IList<IGrouping<string, Flight>> DestinationGroupedFlights();
+        public IList<DateTime> GetFlightDates55(string destination);
 }
 }

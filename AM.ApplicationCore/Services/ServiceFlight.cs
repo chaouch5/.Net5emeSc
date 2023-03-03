@@ -68,7 +68,7 @@ namespace AM.ApplicationCore.Services
             }
         }
 
-        public IList<DateTime>GetFlightDates2(string destination)
+        public IList<DateTime>GetFlightDates55(string destination)
         {
             //  var query = from f in Flights   
             //            where f.Destination == destination
@@ -180,13 +180,36 @@ namespace AM.ApplicationCore.Services
             return req;
 
         }
+
+        IList<DateTime> IServiceFlight.GetFlightDates2(string destination)
+        {
+            throw new NotImplementedException();
+        }
+
         Action<Plane> FlightDetailsDel;
         Func<string,double> DurationAverageDel;
 
         public ServiceFlight()
         {
-
+            FlightDetailsDel = plane =>
+        {
+                var req = Flights
+                     .Where(f => f.plane == plane)
+                     .Select(f => new { f.FlightDate, f.Destination });
+                foreach (var item in req)
+                {
+                    Console.WriteLine(item);
+                }
+            };
+            DurationAverageDel =  destination=>
+        
+                (from f in Flights
+                    .Where(f => f.Destination == destination)
+                     select f.EstimatedDuration).Average();
         }
+
+
+       
 
     }   
     }
