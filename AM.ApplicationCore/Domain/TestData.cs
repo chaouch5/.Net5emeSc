@@ -25,9 +25,9 @@ namespace AM.ApplicationCore.Domain
         public static List<Staff> Staffs { get; set; } = new List<Staff>()
         {
             new Staff
-            {
+            {/*
                  FirstName="Captain",
-                 LastName="Captain",
+                 LastName="Captain",*/
                  EmailAddress="captain.captain@gmail.com",
                  BirthDate=new DateTime(1965,01,01),
                  EmployementDate=new DateTime(1999,01,01),
@@ -38,8 +38,8 @@ namespace AM.ApplicationCore.Domain
         {
             new Traveller
             {
-                FirstName="Traveller1",
-                LastName="Traveller1",
+                /*FirstName="Traveller1",
+                LastName="Traveller1",*/
                 EmailAddress="traveller1@gmail.com",
                 Nationality="Americain",
                 BirthDate=new DateTime(1988,02,04)
