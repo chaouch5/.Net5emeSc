@@ -7,21 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AM.ApplicationCore.Interfaces.Configuration
+namespace AM.Infrastructure.Configuration
 {
-    public class FlightConfiguration : IEntityTypeConfiguration<Flight>
+    public class flightConfiguration : IEntityTypeConfiguration<Flight>
     {
         public void Configure(EntityTypeBuilder<Flight> builder)
         {
             builder.ToTable("MyFlight");
-            builder.HasKey(x => x.FlightId);
-            builder.HasMany(x => x.passangers)
-               .WithMany(p => p.flights)
-               .UsingEntity(u => u.ToTable("flight-passenger"));
+            builder.HasKey(f => f.FlightId);
+
+            builder.HasMany(f => f.passangers)
+                .WithMany(P => P.flights)
+                .UsingEntity(u => u.ToTable("flight_passenger"));
+
             builder.HasOne(f => f.plane)
                 .WithMany(p => p.flights)
-                .HasForeignKey(f => f.planeID)
+                .HasForeignKey(f => f.planeId)
                 .OnDelete(DeleteBehavior.SetNull);
+                
+
+
         }
+
     }
 }

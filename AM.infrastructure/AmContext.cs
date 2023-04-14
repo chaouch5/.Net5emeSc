@@ -1,45 +1,57 @@
 ﻿using AM.ApplicationCore.Domain;
+using AM.ApplicationCore.Interfaces;
+using AM.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AM.ApplicationCore.Interfaces.Configuration;
-using AM.infrastructure.Configuration;
 
-namespace AM.infrastructure
+
+namespace AM.Infrastructure
 {
-    public  class AmContext: DbContext
+    public class AMContext: DbContext
     {
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            modelBuilder.ApplyConfiguration(new PassengerConfiguration());
-            modelBuilder.ApplyConfiguration(new FlightConfiguration() );
-            modelBuilder.ApplyConfiguration(new PlaneConfiguration());
-            modelBuilder.Entity<Flight>().ToTable("MyFlight");
-            modelBuilder.Entity<Flight>().HasKey(f=>f.FlightId);
-           // modelBuilder.Entity<Passanger>().Property(f=>f.FirstName).HasColumnType("PassengerName")
-            //    .IsRequired()
-              //  .HasColumnType("varchar");
-        }
-        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
-        {
-            configurationBuilder.Properties<string>().HaveColumnType("varchar").HaveMaxLength(50);
-            configurationBuilder.Properties<DateTime>().HaveColumnType("date");
-            configurationBuilder.Properties<Double>().HavePrecision(2,3);
-        }
 
-
-        public DbSet<Flight> Flights { get; set; }
         public DbSet<Plane> Planes { get; set; }
-        public DbSet<Passanger> Passangers { get; set; }
+        public DbSet<Flight> Flights { get; set; }
+        public DbSet<Passenger> Passengers { get; set; }
+        public DbSet<Staff> Staff { get; set; }
         public DbSet<Traveller> Travellers { get; set; }
-        public DbSet<Staff> Staffs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"data source= (localdb)\mssqllocaldb; initial catalog=Chaouch; integrated security= true");
+            optionsBuilder.UseLazyLoadingProxies();
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;
+              Initial Catalog=AirportManagementDB;Integrated Security=true");
+            base.OnConfiguring(optionsBuilder);
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new PlaneConfiguration());
+            modelBuilder.ApplyConfiguration(new FlightConfiguration());
+            modelBuilder.ApplyConfiguration(new PassengerConfiguration());
+            modelBuilder.ApplyConfiguration(new TicketConfiguration());
+
+            modelBuilder.Entity<Staff>().ToTable("Staff");
+            modelBuilder.Entity<Traveller>().ToTable("Travellers");
+
+        }
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+        //    // Pre-convention model configuration goes here
+        //    configurationBuilder
+        //        .Properties<string>()
+        //        .HaveMaxLength(50);
+        //configurationBuilder
+        //    .Properties<decimal>()
+        //        .HavePrecision(8,3);
+            configurationBuilder
+              .Properties<DateTime>()
+                  .HaveColumnType("date");
+        }
+
 
 
     }

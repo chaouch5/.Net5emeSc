@@ -1,150 +1,132 @@
-﻿//// See https://aka.ms/new-console-template for more information
+﻿// See https://aka.ms/new-console-template for more information
 using AM.ApplicationCore.Domain;
-using AM.ApplicationCore.Interfaces;
-using System.Collections;
 using AM.ApplicationCore.Services;
-//float age = 0;
-//try
-//{
-//    age = float.Parse(Console.ReadLine());
+using AM.Infrastructure;
 
-//}
-//catch
-//{
-//    Console.WriteLine("Erreur");
-//}
-//Console.WriteLine("Hello" + chaine + "age : " + (age + 1));*
+//Console.WriteLine("Hello, World!");
 
+////TP1-Q7: Créer un objet de type Plane en utilisant le constructeur non paramétré
+//Plane plane1 = new Plane();
+//plane1.PlaneType = PlaneType.Airbus;
+//plane1.Capacity = 200;
+//plane1.ManufactureDate = new DateTime(2018, 11, 10);
 
-//Personne personne = new Personne();
-//personne.Id=0;
-//personne.Nom = "med";
-//personne.Prenom = "chaouch";
-//personne.Password = "0000";
-//per//string chaine = Console.ReadLine();
-//sonne.Email = "mohamedkhalil.chaouch@esprit.tn";
-//personne.DateNaissance = new DateTime(20, 12, 31, 15, 45, 54);
-//Console.WriteLine(personne.ToString());
-//Personne personne2 = new Personne(
-//    "nom", "prenom", "email", "password", DateTime.Now
-//    ) ;
-//Personne personne3 = new Personne()
+////TP1-Q8: Créer un objet de type Plane en utilisant le constructeur paramétré
+//Plane plane2 = new Plane(PlaneType.Boing, 300, DateTime.Now);
+
+////TP1-Q9: Créer un objet de type Plane en utilisant l'initialiseur d'objet
+//Plane plane3 = new Plane
 //{
-//    Nom = "nom1",
-//    Prenom = "prenom",
-//    Email = "email",
-//    DateNaissance = new DateTime(),
-//    Password = "password",
+//    PlaneType = PlaneType.Airbus,
+//    Capacity = 150,
+//    ManufactureDate = new DateTime(2015, 02, 03)
 //};
-//Personne etudiant = new Etudiant();
-//personne.GetMyType();
-//etudiant.GetMyType();
 
 
-Plane plane1 = new Plane();
-plane1.PlaneId = 1;
-plane1.Capacity = 300;
-plane1.ManufactureDate = new DateTime(2022, 09, 23);
-plane1.PlaneType = PlaneType.Airbus;
-Console.WriteLine(plane1.ToString());
-Plane plane2 = new Plane(PlaneType.Airbus, 500, DateTime.Now);
-Console.WriteLine(plane2.ToString()); 
-Plane p3 = new Plane()
-{ Capacity = 500, PlaneType = PlaneType.Airbus, ManufactureDate = DateTime.Now };
-Console.WriteLine(p3.ToString());
-Passanger pass1 = new Passanger
-{
-  /*  FirstName = "cc",
-    LastName = "bb",
-    EmailAddress = "cc.bb@esprit.tn"*/
+Console.WriteLine("************************************ Testing Signature Polymorphisme ****************************** ");
+Passenger p1 = new Passenger { FullName = new FullName { FirstName = "steave", LastName = "jobs" }, EmailAddress = "steeve.jobs@gmail.com", BirthDate = new DateTime(1955, 01, 01) };
+Console.WriteLine("La méthode CheckProfile:");
+Console.WriteLine(p1.CheckProfile("steave", "jobs"));
+Console.WriteLine(p1.CheckProfile("steave", "jobs", "steeve.jobs@gmail.com"));
+
+Console.WriteLine("************************************ Testing Inheritance Polymorphisme ****************************** ");
+Staff s1 = new Staff { FullName = new FullName { FirstName = "Bill", LastName = "Gates" }, EmailAddress = "Bill.gates@gmail.com", BirthDate = new DateTime(1945, 01, 01), EmployementDate = new DateTime(1990, 01, 01), Salary = 99999 };
+Traveller t1 = new Traveller { FullName  = new FullName { FirstName = "Mark", LastName = "Zuckerburg" }, EmailAddress = "Mark.Zuckerburg@gmail.com", BirthDate = new DateTime(1980, 01, 01), HealthInformation = "Some troubles", Nationality = "American" };
+Console.WriteLine("La méthode PassengerType p1:");
+p1.PassengerType();
+Console.WriteLine("La méthode PassengerType s1:");
+s1.PassengerType();
+Console.WriteLine("La méthode PassengerType t1:");
+t1.PassengerType();
 
 
-};
 
-//Console.WriteLine(pass1.CheckProfil("cc", "bb"));
-pass1.PassangerType();
-Staff stf = new Staff();
-stf.PassangerType();
 
-ArrayList list= new ArrayList();
-list.Add(pass1);
-list.Add(12);
-list.Add("hello");
-foreach
-    (var item in list)
-{
+
+//TP2-Q5:Créer une instance de la classe ServiceFlight
+//ServiceFlight sf = new ServiceFlight();
+//TP2-Q5:Affecter listFlights à la propriété Flights de la classe ServiceFlight
+//sf.Flights = TestData.listFlights;
+
+Console.WriteLine("************************************ GetFlightDates (string destination)  ****************************** ");
+Console.WriteLine("Flight dates to Madrid");
+foreach (var item in sf.GetFlightDates("Madrid"))
     Console.WriteLine(item);
-}
-List<int> ints= new List<int>();
-ints.Add(1);
-ints.Add(2);
-List<Plane> planes = new List<Plane>()
-{p3,
- new Plane(){
-   PlaneId=1,
-   PlaneType= PlaneType.Airbus,
-   Capacity = 500,
- }
 
-};
-ServiceFlight service = new ServiceFlight();
-service.Flights = TestData.Flights;
-Action<string, int> action;
-static void Test(string a, int v) { };
-action = delegate (string a, int b) { };
-action("hello", 2);
-Func<Boolean, string, double> func;
-static double Test2(Boolean a, string b) { return 0; };
-func = (Boolean a, string b) => 10;
-double a = func(true, "abc");
-service.GetFlights("Paris",
-delegate (string a, Flight flight)
+Console.WriteLine("************************************ GetFlights(string filterType, string filterValue)  ****************************** ");
+sf.GetFlights("Destination", "Paris");
+
+
+Console.WriteLine("************************************ ShowFlightDetails(Plane plane)  ****************************** ");
+sf.ShowFlightDetails(TestData.Airbusplane);
+
+Console.WriteLine("************************************ ProgrammedFlightNumber(DateTime startDate)  ****************************** ");
+Console.WriteLine("Number of programmed flights in 01/01/2022 week: ");
+Console.WriteLine(sf.ProgrammedFlightNumber(new DateTime(2022, 01, 01)));
+Console.WriteLine("************************************ DurationAverage(string destination) ****************************** ");
+Console.WriteLine("Duration average of flights to Madrid: " + sf.DurationAverage("Madrid"));
+Console.WriteLine("************************************ OrderedDurationFlights()  ****************************** ");
+foreach (var item in sf.OrderedDurationFlights())
+    Console.WriteLine(item);
+Console.WriteLine("************************************ SeniorTravellers(Flight flight) ****************************** ");
+//foreach (var item in sf.SeniorTravellers(TestData.flight1))
+//    Console.WriteLine(item);
+Console.WriteLine("************************************ DestinationGroupedFlights()  ****************************** ");
+sf.DestinationGroupedFlights();
+Console.WriteLine("************************************ Testing Delegates  ****************************** ");
+
+sf.FlightDetailsDel(TestData.BoingPlane);
+Console.WriteLine("Average duration of flight To Paris; " + sf.DurationAverageDel("Paris"));
+
+Console.WriteLine("************************************ Testing Extension methods  ****************************** ");
+p1.UpperFullName();
+Console.WriteLine("First Name: " + p1.FullName.FirstName + " Last Name: " + p1.FullName.LastName);
+
+
+
+AMContext ctx = new AMContext();
+//instanciation des objets
+Plane plane1 = new Plane
 {
-    return flight.Destination == a;
-});
-service.GetFlights("Paris",
- (string a, Flight flight) =>
-
-     flight.EstimatedDuration == int.Parse(a)
-);
-
-
-int x = 45;
-Console.WriteLine(x.Add(2));
-Passanger p = new Passanger()
-{
-   /* LastName = "test",
-    FirstName = "test",*/
-
+    PlaneType = PlaneType.Airbus,
+    Capacity = 150,
+    ManufactureDate = new DateTime(2015, 02, 03)
 };
 
-p.UpperFullName();
-Console.WriteLine(p);
+Flight f1 = new Flight() 
+{ 
+    Departure = "Tunis", 
+    Airline = "Tunisair", 
+    FlightDate = new DateTime(2022, 02, 01, 21, 10, 10), 
+    Destination = "Paris", 
+    EffectiveArrival = new DateTime(2022, 02, 01, 23, 10, 10), 
+    EstimatedDuration = 103, 
+    Plane = plane1
+};
 
 
+//Ajouter des objets aux DBSET
+//ctx.Planes.Add(plane1);
+//ctx.Flights.Add(f1);
 
 
+//persister les données
+//ctx.SaveChanges();
+Console.WriteLine(f1.Plane.PlaneId +" "+ f1.Plane.Capacity);
+Console.WriteLine(plane1.PlaneId + " " + plane1.Capacity);
 
 
+//Partie 6.1
 
+//ServiceFlight service = new ServiceFlight(new GenericRepository<Flight>(ctx));
+//service.Add(f1);
 
+//ctx.SaveChanges();
 
+//Partie 6.2
 
+ServiceFlight service = new ServiceFlight(new UnitOfWork(ctx, typeof(GenericRepository<>)));
+service.Add(f1);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ctx.SaveChanges();
 

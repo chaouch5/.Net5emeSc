@@ -1,28 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AM.ApplicationCore.Domain
 {
-    public class Staff:Passanger
+    public class Staff: Passenger
     {
-       public DateTime EmployementDate { get; set; }
-       public string Function { get; set; }
-       public int Salary { get; set; }
+        public string Function { get; set; }
+        public DateTime EmployementDate { get; set; }
+        [DataType(DataType.Currency)]
+        public float Salary { get; set; }
+
+        //TP1-Q6: Réimplémenter la méthode ToString()
         public override string ToString()
         {
-            return base.ToString()+ $"EmployementDate: {EmployementDate}, Function: {Function}, Salary: {Salary}";
+            base.ToString();
+            return "Function: " + Function + " EmployementDate : " + EmployementDate + " Salary: " + Salary;
         }
 
-        public override void PassangerType()
+        //TP1-Q11.b: Réimplémenter la méthode PassengerType()
+        public override void PassengerType()
         {
-            base.PassangerType();
-            Console.WriteLine("staf");
-
+            base.PassengerType();
+            Console.WriteLine("and I'm a staff member");
         }
-
     }
 }
